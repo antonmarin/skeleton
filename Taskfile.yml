@@ -10,6 +10,15 @@ tasks:
     cmds:
       - dep ensure
 
+  dev-run:
+    cmds:
+      - go run -race main.go
+#    env:
+#      SENTRY_RELEASE: dev
+#      SENTRY_ENVIRONMENT: dev
+#      SENTRY_DSN: "https://bf61fc2df1d94b81a6026edfc712ab29:7a37deedec70440c9cf2bfee6baf0616@sentry.io/1273294"
+    deps: [lint]
+
   format:
     cmds:
       - go fmt $({{ .CMD_LIST_PACKAGES }})
@@ -18,13 +27,11 @@ tasks:
     desc: "Quick tests such as fmt and vet"
     cmds:
       - dep check
-      - if [ -z $(gofmt -e -l **/*.go) ]; then
-        exit 0;
-        else
-        echo "Files with formatting errors:";
-        gofmt -e -l **/*.go;
-        exit 1;
-        fi
+#      - if [ ! -z $(gofmt -e -l **/*.go) ]; then
+#        echo "Files with formatting errors:";
+#        gofmt -e -l **/*.go;
+#        exit 1;
+#        fi
       - go vet $({{ .CMD_LIST_PACKAGES }})
     deps: [build]
 
