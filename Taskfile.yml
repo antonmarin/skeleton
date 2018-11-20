@@ -1,0 +1,39 @@
+---
+version: '2'
+
+vars:
+  CMD_LIST_PACKAGES: go list ./... | grep -v /vendor/
+  VERSION_DEP: "v0.5.0"
+
+tasks:
+  build:
+    cmds:
+      - dep ensure
+
+  format:
+    cmds:
+      - go fmt $({{ .CMD_LIST_PACKAGES }})
+
+  lint:
+    desc: "Quick tests such as fmt and vet"
+    cmds:
+      - dep check
+      - if [ -z $(gofmt -e -l **/*.go) ]; then
+        exit 0;
+        else
+        echo "Files with formatting errors:";
+        gofmt -e -l **/*.go;
+        exit 1;
+        fi
+      - go vet $({{ .CMD_LIST_PACKAGES }})
+    deps: [build]
+
+  test:
+    desc: "Test application"
+    cmds:
+      - go test -race -coverprofile=c.out $({{ .CMD_LIST_PACKAGES }})
+    deps: [lint]
+
+  require-dep:
+    cmds:
+      - curl https://raw.githubusercontent.com/golang/dep/{{ .VERSION_DEP }}/install.sh | sh
