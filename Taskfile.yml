@@ -10,6 +10,22 @@ tasks:
     cmds:
       - dep ensure
 
+  # Usage without prompt: `BINARY_PATH=path-to-bin task compile`
+  compile:
+    deps: [build]
+    cmds:
+      - if [ -z ${BINARY_PATH+x} ]; then
+        echo "Where to compile?" &&
+        read COMPILE_PATH &&
+        echo "Going to compile to ${COMPILE_PATH}" &&
+        export BINARY_PATH=${COMPILE_PATH};
+        fi;
+        go build -race -ldflags "-extldflags '-static'" -o ${BINARY_PATH}
+    sources:
+      - "**/*.go"
+    generates:
+      - ${BINARY_PATH}
+
   dev-run:
     cmds:
       - go run -race main.go

@@ -7,13 +7,10 @@ import (
 
 func main() {
 	prompt := promptui.Select{
-		Label: "Select Day",
-		Items: []string{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-			"Saturday", "Sunday"},
+		Label: "Select",
+		Items: []string{"Docker", "Vagrant"},
 	}
-
 	_, result, err := prompt.Run()
-
 	if err != nil {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
