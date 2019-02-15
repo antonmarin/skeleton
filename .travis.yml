@@ -2,3 +2,7 @@
 language: go
 go:
   - 1.11.x
+script: 
+  - task build
+  - task test
+  - task compile
