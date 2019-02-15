@@ -9,6 +9,7 @@ tasks:
   build:
     cmds:
       - dep ensure
+    deps: [require-dep]
 
   # Usage without prompt: `BINARY_PATH=path-to-bin task compile`
   compile:
@@ -26,15 +27,6 @@ tasks:
     generates:
       - ${BINARY_PATH}
 
-  dev-run:
-    cmds:
-      - go run -race main.go
-#    env:
-#      SENTRY_RELEASE: dev
-#      SENTRY_ENVIRONMENT: dev
-#      SENTRY_DSN: "https://bf61fc2df1d94b81a6026edfc712ab29:7a37deedec70440c9cf2bfee6baf0616@sentry.io/1273294"
-    deps: [lint]
-
   format:
     cmds:
       - go fmt $({{ .CMD_LIST_PACKAGES }})
@@ -50,6 +42,15 @@ tasks:
 #        fi
       - go vet $({{ .CMD_LIST_PACKAGES }})
     deps: [build]
+
+  run:
+    cmds:
+      - go run -race main.go
+    #    env:
+    #      SENTRY_RELEASE: dev
+    #      SENTRY_ENVIRONMENT: dev
+    #      SENTRY_DSN: "https://bf61fc2df1d94b81a6026edfc712ab29:7a37deedec70440c9cf2bfee6baf0616@sentry.io/1273294"
+    deps: [lint]
 
   test:
     desc: "Test application"
