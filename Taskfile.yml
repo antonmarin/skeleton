@@ -9,6 +9,7 @@ tasks:
   build:
     cmds:
       - dep ensure
+    deps: [require-dep]
 
   # Usage without prompt: `BINARY_PATH=path-to-bin task compile`
   compile:
