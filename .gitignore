@@ -13,3 +13,6 @@
 
 # Build Targets
 vendor
+
+# Compiled artifacts
+release/

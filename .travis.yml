@@ -7,24 +7,51 @@ env:
 jobs:
   include:
     - stage: test
-      before_script:
+      install:
         - wget -qO - "https://github.com/go-task/task/releases/download/v2.2.1/task_linux_amd64.tar.gz" |
           tar zxf - -C /tmp task;
           ls -la /tmp/task
-        - wget -qO - https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64 > /tmp/codeclimate-test-reporter;
-          chmod +x /tmp/codeclimate-test-reporter
+        - wget -qO - https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.4-linux-amd64 > /tmp/cc-test-reporter;
+          chmod +x /tmp/cc-test-reporter
         - export PATH=$PATH:/tmp
         - task --version
+      before_script:
+        - cc-test-reporter before-build
       script:
         - task test
-      after_success:
-        - codeclimate-test-reporter format-coverage -t gcov -o coverage/codeclimate.json c.out
-        - codeclimate-test-reporter upload-coverage
+      after_script:
+        - cc-test-reporter after-build -t gocov --exit-code $TRAVIS_TEST_RESULT --debug
     - stage: release
-      script: echo "Deploying to GitHub releases ..."
+      os: osx
+      before_deploy:
+        - wget -qO - "https://github.com/go-task/task/releases/download/v2.2.1/task_darwin_amd64.tar.gz" |
+          tar zxf - -C /tmp task;
+          ls -la /tmp/task
+        - export PATH=$PATH:/tmp
+        - task --version
+        - BINARY_PATH="release/skeleton" GOOS=darwin GOARCH=amd64 task compile
+        - ls release/
       deploy:
         provider: releases
         api_key: $GITHUB_OAUTH_TOKEN
         skip_cleanup: true
+        file: release/skeleton-darwin
         on:
-          tags: true  
+          tags: true
+    - stage: release
+      os: linux
+      before_deploy:
+        - wget -qO - "https://github.com/go-task/task/releases/download/v2.2.1/task_linux_amd64.tar.gz" |
+          tar zxf - -C /tmp task;
+          ls -la /tmp/task
+        - export PATH=$PATH:/tmp
+        - task --version
+        - BINARY_PATH="release/skeleton" GOOS=linux GOARCH=amd64 task compile
+        - ls release/
+      deploy:
+        provider: releases
+        api_key: $GITHUB_OAUTH_TOKEN
+        skip_cleanup: true
+        file: release/skeleton-linux
+        on:
+          tags: true
