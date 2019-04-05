@@ -5,10 +5,13 @@ type apply struct {
 	configObserver configObserver
 }
 
+//Constructs Apply use case.
+// ConfigFactory creates configuration and configObserver dispatches config to handlers
 func NewApply(configFactory configFactory, configObserver configObserver) *apply {
 	return &apply{configFactory: configFactory, configObserver: configObserver}
 }
 
+//Execute use case.
 func (useCase apply) Execute() error {
 	config, err := useCase.configFactory.ConstructConfig()
 	if err != nil {
