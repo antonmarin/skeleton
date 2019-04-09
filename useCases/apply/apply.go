@@ -18,11 +18,7 @@ func (useCase apply) Execute() error {
 		return err
 	}
 
-	if err = useCase.configObserver.Update(config); err != nil {
-		return err
-	}
-
-	return nil
+	return useCase.configObserver.Apply(config)
 }
 
 type configFactory interface {
@@ -33,5 +29,5 @@ type Config interface {
 }
 
 type configObserver interface {
-	Update(Config) error
+	Apply(Config) error
 }

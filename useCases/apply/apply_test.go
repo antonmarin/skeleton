@@ -35,7 +35,7 @@ type observerSpy struct {
 	CallCounter int
 }
 
-func (o *observerSpy) Update(Config) error {
+func (o *observerSpy) Apply(Config) error {
 	o.CallCounter++
 	return nil
 }
