@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"github.com/antonmarin/skeleton/config/params/osFamily"
+	"os"
 	"runtime"
 )
 
@@ -17,10 +18,13 @@ func NewFactory() *Factory {
 
 //ConstructConfig creates Config
 func (factory Factory) ConstructConfig() (Config, error) {
-	goosEnvValue := runtime.GOOS
-	osTypeValue := osFamily.NewFromGOOS(goosEnvValue)
+	osStringValue := os.Getenv("GOOS")
+	if len(osStringValue) == 0 {
+		osStringValue = runtime.GOOS
+	}
+	osTypeValue := osFamily.NewFromGOOS(osStringValue)
 	if osTypeValue == osFamily.Undefined {
-		return Config{}, fmt.Errorf("undefined OS from env: GOOS=%s", goosEnvValue)
+		return Config{}, fmt.Errorf("undefined OS from env: GOOS=%s", osStringValue)
 	}
 
 	return Config{

@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestFactory_ShouldCreateConfigWithOsType(t *testing.T) {
+func TestFactory_ShouldCreateConfigWhenOsTypePassedAsEnvVariable(t *testing.T) {
 	var config Config
 	factory := NewFactory()
 

@@ -7,7 +7,7 @@ type apply struct {
 	plugin        Plugin
 }
 
-//Constructs Apply use case.
+//Constructs Accept use case.
 func NewApply(configFactory configFactory, plugin Plugin) *apply {
 	return &apply{configFactory: configFactory, plugin: plugin}
 }
@@ -19,7 +19,7 @@ func (useCase apply) Execute() error {
 		return err
 	}
 
-	return useCase.plugin.Apply(currentConfig)
+	return useCase.plugin.Accept(currentConfig)
 }
 
 type configFactory interface {
@@ -27,5 +27,5 @@ type configFactory interface {
 }
 
 type Plugin interface {
-	Apply(config.Config) error
+	Accept(config.Config) error
 }
