@@ -1,33 +1,31 @@
 package apply
 
+import "github.com/antonmarin/skeleton/config"
+
 type apply struct {
-	configFactory  configFactory
-	configObserver configObserver
+	configFactory configFactory
+	plugin        Plugin
 }
 
 //Constructs Apply use case.
-// ConfigFactory creates configuration and configObserver dispatches config to handlers
-func NewApply(configFactory configFactory, configObserver configObserver) *apply {
-	return &apply{configFactory: configFactory, configObserver: configObserver}
+func NewApply(configFactory configFactory, plugin Plugin) *apply {
+	return &apply{configFactory: configFactory, plugin: plugin}
 }
 
 //Execute use case.
 func (useCase apply) Execute() error {
-	config, err := useCase.configFactory.ConstructConfig()
+	currentConfig, err := useCase.configFactory.ConstructConfig()
 	if err != nil {
 		return err
 	}
 
-	return useCase.configObserver.Apply(config)
+	return useCase.plugin.Apply(currentConfig)
 }
 
 type configFactory interface {
-	ConstructConfig() (Config, error)
+	ConstructConfig() (config.Config, error)
 }
 
-type Config interface {
-}
-
-type configObserver interface {
-	Apply(Config) error
+type Plugin interface {
+	Apply(config.Config) error
 }

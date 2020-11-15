@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/antonmarin/skeleton/config/enum/osFamily"
+	"github.com/antonmarin/skeleton/config/params/osFamily"
 )
 
 //Config is a user configuration of usage
