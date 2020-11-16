@@ -26,6 +26,9 @@ help: #? help me
 build: #? install dependencies to start contributing
 	go mod download
 
+install: package #? package and install app to system
+	mv $(RELEASES_PATH)/skeleton-$(GOOS) /usr/local/bin/skeleton
+
 lint: lint-mod lint-cs #? pre-build validations
 	@echo "$(COLOR_GREEN)All pre-build validations OK!$(COLOR_NONE)"
 lint-mod:

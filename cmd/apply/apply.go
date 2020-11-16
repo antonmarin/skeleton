@@ -3,8 +3,9 @@ package apply
 import (
 	"errors"
 	"github.com/antonmarin/skeleton/config"
-	"github.com/antonmarin/skeleton/plugins/dummy"
+	"github.com/antonmarin/skeleton/plugins/readme"
 	"github.com/antonmarin/skeleton/useCases/apply"
+	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +19,7 @@ Be careful, it would replace previous skeleton blocks.`,
 		if factory == nil {
 			return errors.New("error constructing config factory")
 		}
-		useCase := apply.NewApply(factory, dummy.NewPlugin())
+		useCase := apply.NewApply(factory, readme.NewPlugin(afero.NewOsFs()))
 		err := useCase.Execute()
 		if err != nil {
 			return err
