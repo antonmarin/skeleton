@@ -7,7 +7,7 @@ Tool for developers to start quickly
 
 ## Usage
 
-Just `skeleton apply`
+Just `skeleton apply` at empty folder
 
 ## Contributing
 
