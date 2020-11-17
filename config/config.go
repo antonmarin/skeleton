@@ -6,5 +6,6 @@ import (
 
 //Config is a user configuration of usage
 type Config struct {
-	osFamily osFamily.OsFamily
+	osFamily         osFamily.OsFamily
+	WorkingDirectory string
 }
