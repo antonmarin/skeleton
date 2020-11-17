@@ -25,6 +25,8 @@ help: #? help me
 
 build: #? install dependencies to start contributing
 	go mod download
+	go get -u github.com/go-bindata/go-bindata/...
+	go-bindata -o templates/templates.go -pkg templates templates/...
 
 install: package #? package and install app to system
 	mv $(RELEASES_PATH)/skeleton-$(GOOS) /usr/local/bin/skeleton
@@ -44,6 +46,7 @@ fix-cs: #? fix code style
 	go fmt ./...
 
 package: build #? create artifact for later usage
+
 	go build -race -ldflags "-s -w -extldflags '-static'" -o $(RELEASES_PATH)/skeleton-$(GOOS)
 
 test: #? test application

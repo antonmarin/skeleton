@@ -3,6 +3,7 @@ package readme
 import (
 	"fmt"
 	"github.com/antonmarin/skeleton/config"
+	"github.com/antonmarin/skeleton/templates"
 	"github.com/spf13/afero"
 	"os"
 	"text/template"
@@ -19,7 +20,12 @@ func NewPlugin(filesystem afero.Fs) *Plugin {
 }
 
 func (p Plugin) Accept(config config.Config) error {
-	t, err := template.New("README.md").ParseFiles("templates/README.md")
+	templateString, err := templates.Asset("templates/plugins/readme/README.md")
+	if err != nil {
+		return fmt.Errorf("failed reading template: %w", err)
+	}
+
+	t, err := template.New("README.md").Parse(string(templateString))
 	if err != nil {
 		return fmt.Errorf("failed parsing template: %w", err)
 	}

@@ -26,8 +26,13 @@ func (factory Factory) ConstructConfig() (Config, error) {
 	if osTypeValue == osFamily.Undefined {
 		return Config{}, fmt.Errorf("undefined OS from env: GOOS=%s", osStringValue)
 	}
+	workingDirectory, err := os.Getwd()
+	if err != nil {
+		return Config{}, fmt.Errorf("error defining working directory: %s", err)
+	}
 
 	return Config{
-		osFamily: osTypeValue,
+		osFamily:         osTypeValue,
+		WorkingDirectory: workingDirectory,
 	}, nil
 }
