@@ -36,7 +36,7 @@ func (p Plugin) Accept(config config.Config) error {
 	if os.IsNotExist(err) {
 		readme, err = p.filesystem.Create(filename)
 	} else {
-		readme, err = p.filesystem.Open(filename)
+		readme, err = p.filesystem.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
 	}
 	if err != nil {
 		return fmt.Errorf("failed opening target file: %w", err)
