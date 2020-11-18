@@ -20,7 +20,7 @@ func NewPlugin(filesystem afero.Fs) *Plugin {
 }
 
 func (p Plugin) Accept(config config.Config) error {
-	templateString, err := templates.Asset("templates/plugins/readme/README.md")
+	templateString, err := templates.Asset("templates/files/plugins/readme/README.md")
 	if err != nil {
 		return fmt.Errorf("failed reading template: %w", err)
 	}
