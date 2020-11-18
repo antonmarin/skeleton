@@ -31,13 +31,8 @@ func (p Plugin) Accept(config config.Config) error {
 	}
 
 	filename := fmt.Sprintf("%s/README.md", config.WorkingDirectory)
-	_, err = p.filesystem.Stat(filename)
 	var readme afero.File
-	if os.IsNotExist(err) {
-		readme, err = p.filesystem.Create(filename)
-	} else {
-		readme, err = p.filesystem.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
-	}
+	readme, err = p.filesystem.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
 		return fmt.Errorf("failed opening target file: %w", err)
 	}
