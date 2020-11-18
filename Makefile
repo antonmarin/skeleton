@@ -26,7 +26,12 @@ help: #? help me
 build: #? install dependencies to start contributing
 	go mod download
 	go get -u github.com/go-bindata/go-bindata/...
-	go-bindata -o templates/templates.go -pkg templates templates/...
+
+generate: #? generate codegen code. use it when templates updated
+	go-bindata -o templates/templates.go -pkg templates templates/files/...
+
+fix-cs: #? fix code style
+	go fmt ./...
 
 install: package #? package and install app to system
 	mv $(RELEASES_PATH)/skeleton-$(GOOS) /usr/local/bin/skeleton
@@ -42,11 +47,7 @@ ifneq ($(shell gofmt -e -l **/*.go),)
 	@echo "$(COLOR_RED)Run \`make fix-cs\` to fix code style$(COLOR_NONE)"
 endif
 
-fix-cs: #? fix code style
-	go fmt ./...
-
 package: build #? create artifact for later usage
-
 	go build -race -ldflags "-s -w -extldflags '-static'" -o $(RELEASES_PATH)/skeleton-$(GOOS)
 
 test: #? test application

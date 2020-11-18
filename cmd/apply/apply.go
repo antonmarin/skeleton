@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/antonmarin/skeleton/config"
 	"github.com/antonmarin/skeleton/plugins/readme"
+	"github.com/antonmarin/skeleton/templates/registry"
 	"github.com/antonmarin/skeleton/useCases/apply"
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
@@ -19,7 +20,7 @@ Be careful, it would replace previous skeleton blocks.`,
 		if factory == nil {
 			return errors.New("error constructing config factory")
 		}
-		useCase := apply.NewApply(factory, readme.NewPlugin(afero.NewOsFs()))
+		useCase := apply.NewApply(factory, readme.NewPlugin(afero.NewOsFs(), registry.BinaryTemplatesRegistry{}))
 		err := useCase.Execute()
 		if err != nil {
 			return err
