@@ -1,6 +1,7 @@
 // Code generated for package templates by go-bindata DO NOT EDIT. (@generated)
 // sources:
 // templates/files/plugins/readme/README.md
+// templates/files/testfile
 package templates
 
 import (
@@ -97,6 +98,26 @@ func templatesFilesPluginsReadmeReadmeMd() (*asset, error) {
 	return a, nil
 }
 
+var _templatesFilesTestfile = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x2a\x49\x2d\x2e\xe1\x02\x04\x00\x00\xff\xff\xc6\x35\xb9\x3b\x05\x00\x00\x00")
+
+func templatesFilesTestfileBytes() ([]byte, error) {
+	return bindataRead(
+		_templatesFilesTestfile,
+		"templates/files/testfile",
+	)
+}
+
+func templatesFilesTestfile() (*asset, error) {
+	bytes, err := templatesFilesTestfileBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "templates/files/testfile", size: 5, mode: os.FileMode(420), modTime: time.Unix(1605723061, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -150,6 +171,7 @@ func AssetNames() []string {
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
 	"templates/files/plugins/readme/README.md": templatesFilesPluginsReadmeReadmeMd,
+	"templates/files/testfile":                 templatesFilesTestfile,
 }
 
 // AssetDir returns the file names below a certain
@@ -200,6 +222,7 @@ var _bintree = &bintree{nil, map[string]*bintree{
 					"README.md": &bintree{templatesFilesPluginsReadmeReadmeMd, map[string]*bintree{}},
 				}},
 			}},
+			"testfile": &bintree{templatesFilesTestfile, map[string]*bintree{}},
 		}},
 	}},
 }}

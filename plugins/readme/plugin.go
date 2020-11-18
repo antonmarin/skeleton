@@ -3,29 +3,27 @@ package readme
 import (
 	"fmt"
 	"github.com/antonmarin/skeleton/config"
-	"github.com/antonmarin/skeleton/templates"
 	"github.com/spf13/afero"
 	"os"
 	"text/template"
 )
 
 type Plugin struct {
-	filesystem afero.Fs
+	filesystem        afero.Fs
+	templatesRegistry TemplatesRegistry
 }
 
-func NewPlugin(filesystem afero.Fs) *Plugin {
-	return &Plugin{
-		filesystem: filesystem,
-	}
+func NewPlugin(filesystem afero.Fs, templatesRegistry TemplatesRegistry) *Plugin {
+	return &Plugin{filesystem: filesystem, templatesRegistry: templatesRegistry}
 }
 
 func (p Plugin) Accept(config config.Config) error {
-	templateString, err := templates.Asset("templates/files/plugins/readme/README.md")
+	templateString, err := p.templatesRegistry.GetTemplateString("templates/files/plugins/readme/README.md")
 	if err != nil {
 		return fmt.Errorf("failed reading template: %w", err)
 	}
 
-	t, err := template.New("README.md").Parse(string(templateString))
+	t, err := template.New("README.md").Parse(templateString)
 	if err != nil {
 		return fmt.Errorf("failed parsing template: %w", err)
 	}
@@ -43,4 +41,8 @@ func (p Plugin) Accept(config config.Config) error {
 	}
 
 	return nil
+}
+
+type TemplatesRegistry interface {
+	GetTemplateString(filename string) (string, error)
 }
