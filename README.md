@@ -1,4 +1,6 @@
 # skeleton
+Some day will do it
+
 Tool for developers to start quickly
 
 [![Build Status](https://travis-ci.org/antonmarin/skeleton.svg?branch=master)](https://travis-ci.org/antonmarin/skeleton)
